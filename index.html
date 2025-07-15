@@ -4,311 +4,405 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modelo Excalidraw do Schema Prisma</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Estilos base que não dependem de Tailwind ou que são personalizações */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8; /* Light blue-gray background */
-            display: flex;
-            justify-content: center;
-            align-items: flex-start; /* Align to top to allow scrolling */
-            min-height: 100vh;
-            padding: 2rem;
-            box-sizing: border-box;
         }
-        .container {
-            max-width: 1200px;
-            width: 100%;
-            background-color: #ffffff;
-            border-radius: 1.5rem; /* More rounded corners */
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            padding: 2.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-            border: 1px solid #e2e8f0; /* Subtle border */
-        }
-        .section-title {
-            font-size: 2.25rem; /* Larger title */
-            font-weight: 700;
-            color: #2d3748; /* Darker text */
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
-            gap: 1.5rem;
-        }
+        /* Transições suaves para interatividade */
         .model-card, .enum-card {
-            background-color: #f7fafc; /* Lighter card background */
-            border: 1px solid #cbd5e0; /* Border for the cards */
-            border-radius: 1rem; /* Rounded corners for cards */
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             transition: transform 0.2s ease-in-out;
         }
         .model-card:hover, .enum-card:hover {
-            transform: translateY(-5px); /* Slight lift on hover */
+            transform: translateY(-5px); /* Efeito de elevação ao passar o mouse */
         }
-        .model-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #2c5282; /* Blue title for models */
-            margin-bottom: 1rem;
-            border-bottom: 2px solid #a0aec0; /* Underline for title */
-            padding-bottom: 0.5rem;
-        }
-        .enum-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #4a5568; /* Gray title for enums */
-            margin-bottom: 0.75rem;
-            border-bottom: 1px solid #cbd5e0;
-            padding-bottom: 0.4rem;
-        }
-        .field-item {
-            font-size: 0.95rem;
-            color: #4a5568;
-            margin-bottom: 0.4rem;
-        }
-        .field-item strong {
-            color: #2d3748;
-        }
-        .field-item span.type {
-            color: #63b3ed; /* Light blue for types */
-            font-weight: 500;
-        }
-        .field-item span.annotation {
-            font-style: italic;
-            color: #718096; /* Gray for annotations */
-            font-size: 0.85rem;
-            margin-left: 0.5rem;
-        }
+        /* Personalização da borda para valores de Enum */
         .enum-value {
-            font-size: 0.9rem;
-            color: #4a5568;
-            margin-bottom: 0.3rem;
-            padding-left: 0.5rem;
-            border-left: 3px solid #9f7aea; /* Purple line for enum values */
-        }
-        .relationships-section {
-            background-color: #edf2f7; /* Lighter background for relationships */
-            border-radius: 1rem;
-            padding: 2rem;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
-        }
-        .relationships-list {
-            list-style: none;
-            padding: 0;
-        }
-        .relationships-list li {
-            background-color: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.75rem;
-            padding: 1rem 1.5rem;
-            margin-bottom: 0.75rem;
-            font-size: 1rem;
-            color: #2d3748;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        .relationships-list li strong {
-            color: #2c5282;
-        }
-        .arrow-icon {
-            color: #4299e1; /* Blue arrow */
-            font-size: 1.2rem;
+            border-left: 3px solid #9f7aea; /* Linha roxa para valores de enum */
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1 class="section-title">Modelo Excalidraw do Schema Prisma</h1>
+<body class="flex justify-center items-start min-h-screen p-4 md:p-8 bg-blue-50">
+    <div class="container max-w-6xl w-full bg-white rounded-3xl shadow-xl p-6 md:p-10 flex flex-col gap-6 md:gap-8 border border-gray-200">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-4 md:mb-6">
+            Modelo Excalidraw do Schema Prisma
+        </h1>
 
         <div class="enums-section">
-            <h2 class="enum-title">Enums</h2>
-            <div class="grid-container">
-                <!-- Role Enum -->
-                <div class="enum-card">
-                    <h3 class="enum-title">Role</h3>
-                    <div class="enum-values">
-                        <div class="enum-value">ADMINISTRADOR</div>
-                        <div class="enum-value">PERSONAL</div>
-                        <div class="enum-value">ALUNO</div>
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-700 text-center mb-4">Enums</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+                <div class="enum-card bg-gray-50 border border-gray-300 rounded-2xl p-4 shadow-md">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-3 border-b border-gray-400 pb-2">Role</h3>
+                    <div class="enum-values space-y-1">
+                        <div class="enum-value pl-2 text-gray-700 text-sm md:text-base">ADMINISTRADOR</div>
+                        <div class="enum-value pl-2 text-gray-700 text-sm md:text-base">PERSONAL</div>
+                        <div class="enum-value pl-2 text-gray-700 text-sm md:text-base">ALUNO</div>
                     </div>
                 </div>
 
-                <!-- Sexo Enum -->
-                <div class="enum-card">
-                    <h3 class="enum-title">Sexo</h3>
-                    <div class="enum-values">
-                        <div class="enum-value">MASCULINO</div>
-                        <div class="enum-value">FEMININO</div>
-                        <div class="enum-value">PREFIRO_NAO_DIZER</div>
+                <div class="enum-card bg-gray-50 border border-gray-300 rounded-2xl p-4 shadow-md">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-3 border-b border-gray-400 pb-2">Sexo</h3>
+                    <div class="enum-values space-y-1">
+                        <div class="enum-value pl-2 text-gray-700 text-sm md:text-base">MASCULINO</div>
+                        <div class="enum-value pl-2 text-gray-700 text-sm md:text-base">FEMININO</div>
+                        <div class="enum-value pl-2 text-gray-700 text-sm md:text-base">PREFIRO_NAO_DIZER</div>
                     </div>
                 </div>
 
-                <!-- FocoTreino Enum -->
-                <div class="enum-card">
-                    <h3 class="enum-title">FocoTreino</h3>
-                    <div class="enum-values">
-                        <div class="enum-value">PERDER_PESO</div>
-                        <div class="enum-value">GANHAR_MASSA</div>
-                        <div class="enum-value">MANTER_A_FORMA</div>
+                <div class="enum-card bg-gray-50 border border-gray-300 rounded-2xl p-4 shadow-md">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-3 border-b border-gray-400 pb-2">FocoTreino</h3>
+                    <div class="enum-values space-y-1">
+                        <div class="enum-value pl-2 text-gray-700 text-sm md:text-base">PERDER_PESO</div>
+                        <div class="enum-value pl-2 text-gray-700 text-sm md:text-base">GANHAR_MASSA</div>
+                        <div class="enum-value pl-2 text-gray-700 text-sm md:text-base">MANTER_A_FORMA</div>
                     </div>
                 </div>
 
-                <!-- FocoCorpo Enum -->
-                <div class="enum-card">
-                    <h3 class="enum-title">FocoCorpo</h3>
-                    <div class="enum-values">
-                        <div class="enum-value">BRACO</div>
-                        <div class="enum-value">COSTAS</div>
-                        <div class="enum-value">GLUTEOS</div>
-                        <div class="enum-value">PERNA</div>
-                        <div class="enum-value">CORPO_TODO</div>
+                <div class="enum-card bg-gray-50 border border-gray-300 rounded-2xl p-4 shadow-md">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-3 border-b border-gray-400 pb-2">FocoCorpo</h3>
+                    <div class="enum-values space-y-1">
+                        <div class="enum-value pl-2 text-gray-700 text-sm md:text-base">BRACO</div>
+                        <div class="enum-value pl-2 text-gray-700 text-sm md:text-base">COSTAS</div>
+                        <div class="enum-value pl-2 text-gray-700 text-sm md:text-base">GLUTEOS</div>
+                        <div class="enum-value pl-2 text-gray-700 text-sm md:text-base">PERNA</div>
+                        <div class="enum-value pl-2 text-gray-700 text-sm md:text-base">CORPO_TODO</div>
                     </div>
                 </div>
 
-                <!-- DiaSemana Enum -->
-                <div class="enum-card">
-                    <h3 class="enum-title">DiaSemana</h3>
-                    <div class="enum-values">
-                        <div class="enum-value">DOMINGO</div>
-                        <div class="enum-value">SEGUNDA</div>
-                        <div class="enum-value">TERCA</div>
-                        <div class="enum-value">QUARTA</div>
-                        <div class="enum-value">QUINTA</div>
-                        <div class="enum-value">SEXTA</div>
-                        <div class="enum-value">SABADO</div>
+                <div class="enum-card bg-gray-50 border border-gray-300 rounded-2xl p-4 shadow-md">
+                    <h3 class="enum-title text-xl font-semibold text-gray-700 mb-3 border-b border-gray-400 pb-2">DiaSemana</h3>
+                    <div class="enum-values space-y-1">
+                        <div class="enum-value pl-2 text-gray-700 text-sm md:text-base">DOMINGO</div>
+                        <div class="enum-value pl-2 text-gray-700 text-sm md:text-base">SEGUNDA</div>
+                        <div class="enum-value pl-2 text-gray-700 text-sm md:text-base">TERCA</div>
+                        <div class="enum-value pl-2 text-gray-700 text-sm md:text-base">QUARTA</div>
+                        <div class="enum-value pl-2 text-gray-700 text-sm md:text-base">QUINTA</div>
+                        <div class="enum-value pl-2 text-gray-700 text-sm md:text-base">SEXTA</div>
+                        <div class="enum-value pl-2 text-gray-700 text-sm md:text-base">SABADO</div>
                     </div>
                 </div>
             </div>
         </div>
 
+        ---
+
         <div class="models-section">
-            <h2 class="section-title">Modelos</h2>
-            <div class="grid-container">
-                <!-- Aluno Model -->
-                <div class="model-card">
-                    <h3 class="model-title">Aluno</h3>
-                    <div class="fields">
-                        <div class="field-item"><strong>id</strong>: <span class="type">Int</span> <span class="annotation">@id @default(autoincrement())</span></div>
-                        <div class="field-item"><strong>role</strong>: <span class="type">Role</span> <span class="annotation">@default(ALUNO)</span></div>
-                        <div class="field-item"><strong>nome</strong>: <span class="type">String?</span></div>
-                        <div class="field-item"><strong>sobrenome</strong>: <span class="type">String?</span></div>
-                        <div class="field-item"><strong>foto</strong>: <span class="type">String</span></div>
-                        <div class="field-item"><strong>sexo</strong>: <span class="type">Sexo</span> <span class="annotation">@default(PREFIRO_NAO_DIZER)</span></div>
-                        <div class="field-item"><strong>foco_treino</strong>: <span class="type">FocoTreino?</span></div>
-                        <div class="field-item"><strong>peso</strong>: <span class="type">Float?</span></div>
-                        <div class="field-item"><strong>altura</strong>: <span class="type">Float?</span></div>
-                        <div class="field-item"><strong>idade</strong>: <span class="type">Int?</span></div>
-                        <div class="field-item"><strong>data_matricula</strong>: <span class="type">DateTime?</span></div>
-                        <div class="field-item"><strong>email</strong>: <span class="type">String?</span> <span class="annotation">@unique</span></div>
-                        <div class="field-item"><strong>senha</strong>: <span class="type">String</span></div>
-                        <div class="field-item"><strong>telefone</strong>: <span class="type">String?</span> <span class="annotation">@unique</span></div>
-                        <div class="field-item"><strong>foco_corpo</strong>: <span class="type">FocoCorpo?</span></div>
-                        <div class="field-item"><strong>plano_id</strong>: <span class="type">Int?</span></div>
-                        <div class="field-item"><strong>plano</strong>: <span class="type">Plano?</span> <span class="annotation">@relation</span></div>
-                        <div class="field-item"><strong>treinos_aluno</strong>: <span class="type">AlunoTreino[]</span></div>
-                        <div class="field-item"><strong>personal_id</strong>: <span class="type">Int?</span></div>
-                        <div class="field-item"><strong>personal</strong>: <span class="type">Personal?</span> <span class="annotation">@relation</span></div>
-                        <div class="field-item"><strong>criado_em</strong>: <span class="type">DateTime</span> <span class="annotation">@default(now())</span></div>
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-4">Modelos</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                <div class="model-card bg-gray-50 border border-gray-300 rounded-2xl p-4 shadow-md">
+                    <h3 class="model-title text-2xl font-semibold text-blue-800 mb-4 border-b-2 border-gray-400 pb-2">Aluno</h3>
+                    <div class="fields space-y-1">
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">id</strong>: <span class="text-blue-500 font-medium">Int</span> <span class="italic text-gray-600 text-xs md:text-sm">@id @default(autoincrement())</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">role</strong>: <span class="text-blue-500 font-medium">Role</span> <span class="italic text-gray-600 text-xs md:text-sm">@default(ALUNO)</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">nome</strong>: <span class="text-blue-500 font-medium">String?</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">sobrenome</strong>: <span class="text-blue-500 font-medium">String?</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">foto</strong>: <span class="text-blue-500 font-medium">String</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">sexo</strong>: <span class="text-blue-500 font-medium">Sexo</span> <span class="italic text-gray-600 text-xs md:text-sm">@default(PREFIRO_NAO_DIZER)</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">foco_treino</strong>: <span class="text-blue-500 font-medium">FocoTreino?</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">peso</strong>: <span class="text-blue-500 font-medium">Float?</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">altura</strong>: <span class="text-blue-500 font-medium">Float?</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">idade</strong>: <span class="text-blue-500 font-medium">Int?</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">data_matricula</strong>: <span class="text-blue-500 font-medium">DateTime?</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">email</strong>: <span class="text-blue-500 font-medium">String?</span> <span class="italic text-gray-600 text-xs md:text-sm">@unique</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">senha</strong>: <span class="text-blue-500 font-medium">String</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">telefone</strong>: <span class="text-blue-500 font-medium">String?</span> <span class="italic text-gray-600 text-xs md:text-sm">@unique</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">foco_corpo</strong>: <span class="text-blue-500 font-medium">FocoCorpo?</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">plano_id</strong>: <span class="text-blue-500 font-medium">Int?</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">plano</strong>: <span class="text-blue-500 font-medium">Plano?</span> <span class="italic text-gray-600 text-xs md:text-sm">@relation</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">treinos_aluno</strong>: <span class="text-blue-500 font-medium">AlunoTreino[]</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">personal_id</strong>: <span class="text-blue-500 font-medium">Int?</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">personal</strong>: <span class="text-blue-500 font-medium">Personal?</span> <span class="italic text-gray-600 text-xs md:text-sm">@relation</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">criado_em</strong>: <span class="text-blue-500 font-medium">DateTime</span> <span class="italic text-gray-600 text-xs md:text-sm">@default(now())</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Plano Model -->
-                <div class="model-card">
-                    <h3 class="model-title">Plano</h3>
-                    <div class="fields">
-                        <div class="field-item"><strong>id</strong>: <span class="type">Int</span> <span class="annotation">@id @default(autoincrement())</span></div>
-                        <div class="field-item"><strong>tipo_plano</strong>: <span class="type">String</span></div>
-                        <div class="field-item"><strong>valor</strong>: <span class="type">Decimal</span></div>
-                        <div class="field-item"><strong>alunos</strong>: <span class="type">Aluno[]</span></div>
+                <div class="model-card bg-gray-50 border border-gray-300 rounded-2xl p-4 shadow-md">
+                    <h3 class="model-title text-2xl font-semibold text-blue-800 mb-4 border-b-2 border-gray-400 pb-2">Plano</h3>
+                    <div class="fields space-y-1">
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">id</strong>: <span class="text-blue-500 font-medium">Int</span> <span class="italic text-gray-600 text-xs md:text-sm">@id @default(autoincrement())</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">tipo_plano</strong>: <span class="text-blue-500 font-medium">String</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">valor</strong>: <span class="text-blue-500 font-medium">Decimal</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">alunos</strong>: <span class="text-blue-500 font-medium">Aluno[]</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Administrador Model -->
-                <div class="model-card">
-                    <h3 class="model-title">Administrador</h3>
-                    <div class="fields">
-                        <div class="field-item"><strong>id</strong>: <span class="type">Int</span> <span class="annotation">@id @default(autoincrement())</span></div>
-                        <div class="field-item"><strong>role</strong>: <span class="type">Role</span> <span class="annotation">@default(ADMINISTRADOR)</span></div>
-                        <div class="field-item"><strong>nome</strong>: <span class="type">String</span></div>
-                        <div class="field-item"><strong>sobrenome</strong>: <span class="type">String</span></div>
-                        <div class="field-item"><strong>foto</strong>: <span class="type">String</span></div>
-                        <div class="field-item"><strong>telefone</strong>: <span class="type">String</span></div>
-                        <div class="field-item"><strong>senha</strong>: <span class="type">String</span></div>
-                        <div class="field-item"><strong>email</strong>: <span class="type">String</span> <span class="annotation">@unique</span></div>
-                        <div class="field-item"><strong>criado_em</strong>: <span class="type">DateTime</span> <span class="annotation">@default(now())</span></div>
+                <div class="model-card bg-gray-50 border border-gray-300 rounded-2xl p-4 shadow-md">
+                    <h3 class="model-title text-2xl font-semibold text-blue-800 mb-4 border-b-2 border-gray-400 pb-2">Administrador</h3>
+                    <div class="fields space-y-1">
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">id</strong>: <span class="text-blue-500 font-medium">Int</span> <span class="italic text-gray-600 text-xs md:text-sm">@id @default(autoincrement())</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">role</strong>: <span class="text-blue-500 font-medium">Role</span> <span class="italic text-gray-600 text-xs md:text-sm">@default(ADMINISTRADOR)</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">nome</strong>: <span class="text-blue-500 font-medium">String</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">sobrenome</strong>: <span class="text-blue-500 font-medium">String</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">foto</strong>: <span class="text-blue-500 font-medium">String</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">telefone</strong>: <span class="text-blue-500 font-medium">String</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">senha</strong>: <span class="text-blue-500 font-medium">String</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">email</strong>: <span class="text-blue-500 font-medium">String</span> <span class="italic text-gray-600 text-xs md:text-sm">@unique</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">criado_em</strong>: <span class="text-blue-500 font-medium">DateTime</span> <span class="italic text-gray-600 text-xs md:text-sm">@default(now())</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Personal Model -->
-                <div class="model-card">
-                    <h3 class="model-title">Personal</h3>
-                    <div class="fields">
-                        <div class="field-item"><strong>id</strong>: <span class="type">Int</span> <span class="annotation">@id @default(autoincrement())</span></div>
-                        <div class="field-item"><strong>role</strong>: <span class="type">Role</span> <span class="annotation">@default(PERSONAL)</span></div>
-                        <div class="field-item"><strong>nome</strong>: <span class="type">String</span></div>
-                        <div class="field-item"><strong>sobrenome</strong>: <span class="type">String</span></div>
-                        <div class="field-item"><strong>foto</strong>: <span class="type">String</span></div>
-                        <div class="field-item"><strong>telefone</strong>: <span class="type">String?</span></div>
-                        <div class="field-item"><strong>senha</strong>: <span class="type">String</span></div>
-                        <div class="field-item"><strong>email</strong>: <span class="type">String?</span> <span class="annotation">@unique</span></div>
-                        <div class="field-item"><strong>formacao</strong>: <span class="type">String?</span></div>
-                        <div class="field-item"><strong>registro_profissional</strong>: <span class="type">String?</span></div>
-                        <div class="field-item"><strong>especialidade</strong>: <span class="type">String?</span></div>
-                        <div class="field-item"><strong>disponibilidade</strong>: <span class="type">String?</span></div>
-                        <div class="field-item"><strong>treinos_criados</strong>: <span class="type">Treino[]</span></div>
-                        <div class="field-item"><strong>alunos</strong>: <span class="type">Aluno[]</span></div>
-                        <div class="field-item"><strong>criado_em</strong>: <span class="type">DateTime</span> <span class="annotation">@default(now())</span></div>
+                <div class="model-card bg-gray-50 border border-gray-300 rounded-2xl p-4 shadow-md">
+                    <h3 class="model-title text-2xl font-semibold text-blue-800 mb-4 border-b-2 border-gray-400 pb-2">Personal</h3>
+                    <div class="fields space-y-1">
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">id</strong>: <span class="text-blue-500 font-medium">Int</span> <span class="italic text-gray-600 text-xs md:text-sm">@id @default(autoincrement())</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">role</strong>: <span class="text-blue-500 font-medium">Role</span> <span class="italic text-gray-600 text-xs md:text-sm">@default(PERSONAL)</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">nome</strong>: <span class="text-blue-500 font-medium">String</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">sobrenome</strong>: <span class="text-blue-500 font-medium">String</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">foto</strong>: <span class="text-blue-500 font-medium">String</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">telefone</strong>: <span class="text-blue-500 font-medium">String?</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">senha</strong>: <span class="text-blue-500 font-medium">String</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">email</strong>: <span class="text-blue-500 font-medium">String?</span> <span class="italic text-gray-600 text-xs md:text-sm">@unique</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">formacao</strong>: <span class="text-blue-500 font-medium">String?</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">registro_profissional</strong>: <span class="text-blue-500 font-medium">String?</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">especialidade</strong>: <span class="text-blue-500 font-medium">String?</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">disponibilidade</strong>: <span class="text-blue-500 font-medium">String?</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">treinos_criados</strong>: <span class="text-blue-500 font-medium">Treino[]</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">alunos</strong>: <span class="text-blue-500 font-medium">Aluno[]</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">criado_em</strong>: <span class="text-blue-500 font-medium">DateTime</span> <span class="italic text-gray-600 text-xs md:text-sm">@default(now())</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Treino Model -->
-                <div class="model-card">
-                    <h3 class="model-title">Treino</h3>
-                    <div class="fields">
-                        <div class="field-item"><strong>id</strong>: <span class="type">String</span> <span class="annotation">@id @default(uuid())</span></div>
-                        <div class="field-item"><strong>nome</strong>: <span class="type">String</span></div>
-                        <div class="field-item"><strong>descricao</strong>: <span class="type">String</span></div>
-                        <div class="field-item"><strong>foco_corpo</strong>: <span class="type">FocoCorpo</span></div>
-                        <div class="field-item"><strong>foto</strong>: <span class="type">String?</span></div>
-                        <div class="field-item"><strong>exercicios</strong>: <span class="type">Exercicio[]</span></div>
-                        <div class="field-item"><strong>alunos</strong>: <span class="type">AlunoTreino[]</span></div>
-                        <div class="field-item"><strong>criador_id</strong>: <span class="type">Int</span></div>
-                        <div class="field-item"><strong>criador</strong>: <span class="type">Personal</span> <span class="annotation">@relation</span></div>
-                        <div class="field-item"><strong>criado_em</strong>: <span class="type">DateTime</span> <span class="annotation">@default(now())</span></div>
+                <div class="model-card bg-gray-50 border border-gray-300 rounded-2xl p-4 shadow-md">
+                    <h3 class="model-title text-2xl font-semibold text-blue-800 mb-4 border-b-2 border-gray-400 pb-2">Treino</h3>
+                    <div class="fields space-y-1">
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">id</strong>: <span class="text-blue-500 font-medium">String</span> <span class="italic text-gray-600 text-xs md:text-sm">@id @default(uuid())</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">nome</strong>: <span class="text-blue-500 font-medium">String</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">descricao</strong>: <span class="text-blue-500 font-medium">String</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">foco_corpo</strong>: <span class="text-blue-500 font-medium">FocoCorpo</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">foto</strong>: <span class="text-blue-500 font-medium">String?</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">exercicios</strong>: <span class="text-blue-500 font-medium">Exercicio[]</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">alunos</strong>: <span class="text-blue-500 font-medium">AlunoTreino[]</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">criador_id</strong>: <span class="text-blue-500 font-medium">Int</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">criador</strong>: <span class="text-blue-500 font-medium">Personal</span> <span class="italic text-gray-600 text-xs md:text-sm">@relation</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">criado_em</strong>: <span class="text-blue-500 font-medium">DateTime</span> <span class="italic text-gray-600 text-xs md:text-sm">@default(now())</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Exercicio Model -->
-                <div class="model-card">
-                    <h3 class="model-title">Exercicio</h3>
-                    <div class="fields">
-                        <div class="field-item"><strong>id</strong>: <span class="type">String</span> <span class="annotation">@id @default(uuid())</span></div>
-                        <div class="field-item"><strong>nome</strong>: <span class="type">String</span></div>
-                        <div class="field-item"><strong>foto</strong>: <span class="type">String?</span></div>
-                        <div class="field-item"><strong>descricao</strong>: <span class="type">String</span></div>
-                        <div class="field-item"><strong>repeticoes</strong>: <span class="type">Int</span></div>
-                        <div class="field-item"><strong>execucoes</strong>: <span class="type">Int</span></div>
-                        <div class="field-item"><strong>intervalo_descanso</strong>: <span class="type">Int</span></div>
-                        <div class="field-item"><strong>treino_id</strong>: <span class="type">String</span></div>
-                        <div class="field-item"><strong>treino</strong>: <span class="type">Treino</span> <span class="annotation">@relation(onDelete: Cascade)</span></div>
+                <div class="model-card bg-gray-50 border border-gray-300 rounded-2xl p-4 shadow-md">
+                    <h3 class="model-title text-2xl font-semibold text-blue-800 mb-4 border-b-2 border-gray-400 pb-2">Exercicio</h3>
+                    <div class="fields space-y-1">
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">id</strong>: <span class="text-blue-500 font-medium">String</span> <span class="italic text-gray-600 text-xs md:text-sm">@id @default(uuid())</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">nome</strong>: <span class="text-blue-500 font-medium">String</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">foto</strong>: <span class="text-blue-500 font-medium">String?</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">descricao</strong>: <span class="text-blue-500 font-medium">String</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">repeticoes</strong>: <span class="text-blue-500 font-medium">Int</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">execucoes</strong>: <span class="text-blue-500 font-medium">Int</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">intervalo_descanso</strong>: <span class="text-blue-500 font-medium">Int</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">treino_id</strong>: <span class="text-blue-500 font-medium">String</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">treino</strong>: <span class="text-blue-500 font-medium">Treino</span> <span class="italic text-gray-600 text-xs md:text-sm">@relation(onDelete: Cascade)</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- AlunoTreino Model -->
-                <div class="model-card">
-                    <h3 class="model-title">AlunoTreino</h3>
-                    <div class="fields">
-                        <div class="field-item"><strong>id</strong>: <span class="type">Int</span> <span class="annotation">@id @default(autoincrement())</span></div>
-                        <div class="field-item"><strong>aluno_id</strong>: <span class="type">Int</span></div>
-                        <div class="field-item"><strong>treino_id</strong>: <span class="type">String</span></div>
-                        <div class="field-item"><strong>concluido</strong>: <span class="type">Boolean</span> <span class="annotation">@default(false)</span></div>
-                        <div class="field-item"><strong
+                <div class="model-card bg-gray-50 border border-gray-300 rounded-2xl p-4 shadow-md">
+                    <h3 class="model-title text-2xl font-semibold text-blue-800 mb-4 border-b-2 border-gray-400 pb-2">AlunoTreino</h3>
+                    <div class="fields space-y-1">
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">id</strong>: <span class="text-blue-500 font-medium">Int</span> <span class="italic text-gray-600 text-xs md:text-sm">@id @default(autoincrement())</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">aluno_id</strong>: <span class="text-blue-500 font-medium">Int</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">treino_id</strong>: <span class="text-blue-500 font-medium">String</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">concluido</strong>: <span class="text-blue-500 font-medium">Boolean</span> <span class="italic text-gray-600 text-xs md:text-sm">@default(false)</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">aluno</strong>: <span class="text-blue-500 font-medium">Aluno</span> <span class="italic text-gray-600 text-xs md:text-sm">@relation(fields: [aluno_id], references: [id], onDelete: Cascade)</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">treino</strong>: <span class="text-blue-500 font-medium">Treino</span> <span class="italic text-gray-600 text-xs md:text-sm">@relation(fields: [treino_id], references: [id], onDelete: Cascade)</span>
+                        </div>
+                        <div class="field-item text-gray-700 text-sm md:text-base">
+                            <strong class="text-gray-800">criado_em</strong>: <span class="text-blue-500 font-medium">DateTime</span> <span class="italic text-gray-600 text-xs md:text-sm">@default(now())</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        ---
+
+        <div class="relationships-section bg-blue-100 rounded-2xl p-6 md:p-8 shadow-inner">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-4">Relacionamentos</h2>
+            <ul class="relationships-list list-none p-0">
+                <li class="bg-white border border-gray-300 rounded-xl p-3 md:p-4 mb-3 text-base text-gray-800 flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-2">
+                    <div class="flex items-center gap-2">
+                        <strong class="text-blue-800">Aluno</strong> <span class="text-blue-500 text-lg">-></span> <strong>Plano</strong>:
+                    </div>
+                    <span>Um aluno pode ter um plano (opcional).</span>
+                </li>
+                <li class="bg-white border border-gray-300 rounded-xl p-3 md:p-4 mb-3 text-base text-gray-800 flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-2">
+                    <div class="flex items-center gap-2">
+                        <strong class="text-blue-800">Aluno</strong> <span class="text-blue-500 text-lg">-></span> <strong>Personal</strong>:
+                    </div>
+                    <span>Um aluno pode ter um personal (opcional).</span>
+                </li>
+                <li class="bg-white border border-gray-300 rounded-xl p-3 md:p-4 mb-3 text-base text-gray-800 flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-2">
+                    <div class="flex items-center gap-2">
+                        <strong class="text-blue-800">AlunoTreino</strong> <span class="text-blue-500 text-lg">-></span> <strong>Aluno</strong>:
+                    </div>
+                    <span>Cada registro de treino-aluno está ligado a um aluno.</span>
+                </li>
+                <li class="bg-white border border-gray-300 rounded-xl p-3 md:p-4 mb-3 text-base text-gray-800 flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-2">
+                    <div class="flex items-center gap-2">
+                        <strong class="text-blue-800">AlunoTreino</strong> <span class="text-blue-500 text-lg">-></span> <strong>Treino</strong>:
+                    </div>
+                    <span>Cada registro de treino-aluno está ligado a um treino.</span>
+                </li>
+                <li class="bg-white border border-gray-300 rounded-xl p-3 md:p-4 mb-3 text-base text-gray-800 flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-2">
+                    <div class="flex items-center gap-2">
+                        <strong class="text-blue-800">Personal</strong> <span class="text-blue-500 text-lg">-></span> <strong>Treino</strong>:
+                    </div>
+                    <span>Um personal cria treinos.</span>
+                </li>
+                <li class="bg-white border border-gray-300 rounded-xl p-3 md:p-4 mb-3 text-base text-gray-800 flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-2">
+                    <div class="flex items-center gap-2">
+                        <strong class="text-blue-800">Treino</strong> <span class="text-blue-500 text-lg">-></span> <strong>Exercicio</strong>:
+                    </div>
+                    <span>Um treino contém vários exercícios.</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
